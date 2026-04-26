@@ -35,7 +35,7 @@ public:
         {
             return 1 / (Pi * Power(u, 4) * Power(m_roughness, 2) * Power(1 + (1 - Power(u, 2)) / (Power(u, 2) * Power(m_roughness, 2) * (-1 + m_gamma)), m_gamma));
         }
-        elseß
+        else
         {
             return 0.0;
         }
