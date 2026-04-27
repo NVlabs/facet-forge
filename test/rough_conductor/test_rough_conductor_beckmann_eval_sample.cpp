@@ -16,7 +16,7 @@
 
 #include <bsdfs/conductor.h>
 #include <bsdfs/microsurface.h>
-#include <bsdfs/NDFs/Beckmann.h>
+#include <bsdfs/NDFs/beckmann.h>
 #include <testing/compare_eval_sample.h>
 
 int main(int argc, char **argv)

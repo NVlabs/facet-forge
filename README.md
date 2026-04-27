@@ -48,10 +48,34 @@ The code has three parts:
   - tested on Mac OS Arm M1 with `clang++`
   - assumes `std::mt19937` for gamma random variates (for Student-T NDF sampling)
 - Mathematica tests (described below) in the `test` folder
+- Python test and plotting front ends next to the C++ tests in the `test` folder
 
 ## Running the Tests
 
-The `test` folder contains Mathematica notebooks that compare `eval` and `sample` for various BSDFs.  To use the tests:
+The `test` folder contains C++ test drivers, Mathematica notebooks, and Python plotting front ends that compare `eval` and `sample` for various BSDFs and NDFs.
+
+The Python tests are intended to be the simplest reproducible workflow.  Each Python file sits next to the matching `.cpp` and `.nb` file, compiles the C++ driver, runs it with defaults matching the notebook parameters, and writes a `.png` comparison plot.  The 2D comparison plots include gamma-corrected heatmaps plus theta and phi marginals.  The 1D sigma tests compare discrete/Monte Carlo outputs to deterministic or analytic reference curves where available.
+
+The Python plotting scripts use common scientific Python packages:
+```
+python3 -m pip install numpy matplotlib scipy
+```
+
+For example:
+```
+python3 test/lambert/test_lambert_eval_sample.py
+python3 test/NDFs/test_ST_sigma.py
+```
+
+The notebook-matched default sample counts are intentionally large.  For quick checks, override them on the command line:
+```
+python3 test/lambert/test_lambert_eval_sample.py --samples 100000 --eval-samples 4
+python3 test/NDFs/test_ST_sigma.py --du 0.05
+```
+
+Use `--compiler clang++` or `--compiler g++` to select the C++ compiler, and `--output path/to/plot.png` to choose the output image path.
+
+The original Mathematica notebooks remain useful for interactive exploration.  To use the notebooks:
 - In Mathematica `SetDirectory[]` to the `facet-forge` root dir where you cloned to
 - (optional): edit the arguments of the test to vary roughness parameters, iors, incidence angle, numbers of samples
 - run the full notebook, which will:

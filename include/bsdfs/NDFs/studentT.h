@@ -152,10 +152,16 @@ double StudentTNDF::sigma(const Vector3 &wi) const
         return 0.0;
 
     const double roughnessi = roughness_i(wi);
+    const double u = wi.z;
+
+    if (fabs(u) < 1e-12)
+    {
+        return roughnessi * Sqrt(m_gamma - 1.0) * mygamma(m_gamma - 1.5) /
+               (2.0 * Sqrt(Pi) * mygamma(m_gamma - 1.0));
+    }
+
     const double theta_i = acos(wi.z);
     const double x = 1.0 / tan(theta_i) / roughnessi;
-
-    const double u = wi.z;
 
     if (u > 0.0)
     {

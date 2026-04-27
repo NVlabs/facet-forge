@@ -16,7 +16,7 @@
 
 // test vNDF sampling for Beckmann
 
-#include <bsdfs/NDFs/ggx.h>
+#include <bsdfs/NDFs/GGX.h>
 #include <testing/compare_eval_sample.h>
 
 int main(int argc, char **argv)
