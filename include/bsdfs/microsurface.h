@@ -120,13 +120,14 @@ double Microsurface::eval(const double ior_i, const double ior_t, const Vector3 
 
         // next event estimation
         const double phaseFunctionSingular = m_ndf->evalPhaseFunctionSingular(ior_i, ior_t, outside ? -wr : wr, wo, outside, (wo.z > 0));
-        const double phaseFunction = microfacet_bsdf->eval(outside ? ior_i : ior_t, outside ? ior_t : ior_i, -wr, wo, wm);
+        const Vector3 wo_phase = outside ? wo : -wo;
+        const double phaseFunction = microfacet_bsdf->eval(outside ? ior_i : ior_t, outside ? ior_t : ior_i, -wr, wo_phase, wm);
         const double hr_inside = outside ? log(1.0 - exp(hr)) : hr;
         const double hr_outside = outside ? hr : log(1.0 - exp(hr));
         const double shadowingSingular = (wo.z > 0) ? m_ndf->G_1(wo, hr_outside) : m_ndf->G_1(-wo, hr_inside);
 
         // apply the shadowing that aligns with what side we started on and whether the facet reflected or not
-        bool facet_reflected = dot(wo, wm) >= 0.0;
+        bool facet_reflected = dot(wo_phase, wm) >= 0.0;
         assert(dot(-wr, wm) >= 0.0); // assuming the facet always faces the ray
         const double shadowing = (facet_reflected == outside) ? m_ndf->G_1(wo, hr_outside) : m_ndf->G_1(-wo, hr_inside);
         const double I = weight * (phaseFunctionSingular * shadowingSingular + phaseFunction * shadowing);

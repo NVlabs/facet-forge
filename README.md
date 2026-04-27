@@ -67,6 +67,12 @@ python3 test/lambert/test_lambert_eval_sample.py
 python3 test/NDFs/test_ST_sigma.py
 ```
 
+To run the Python test suite and build a scrollable HTML image report:
+```
+python3 test/run_all_python_tests.py --clean
+```
+The report is written to `test/_python_report/latest/index.html`.  The top of the page links to every test with blue pass chips and red failure chips; each section embeds the generated `.png` and the numeric summary printed by the wrapper.  Use `--only '*dielectric*'` to run a subset or `--jobs 4` to run independent tests concurrently.
+
 The notebook-matched default sample counts are intentionally large.  For quick checks, override them on the command line:
 ```
 python3 test/lambert/test_lambert_eval_sample.py --samples 100000 --eval-samples 4
